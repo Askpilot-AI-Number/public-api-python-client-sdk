@@ -1,0 +1,93 @@
+[project]
+name = "askpilot"
+version = "0.1.0"
+description = "The official Python client for the Askpilot public API."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Askpilot" }]
+requires-python = ">=3.9"
+keywords = ["askpilot", "api", "client", "sdk"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+# The 2 runtime dependencies, and no other. pydantic 2.12 is the first version
+# with wheels for Python 3.14, and 3.14 is in the CI matrix.
+dependencies = [
+    "httpx>=0.28,<1",
+    "pydantic>=2.12,<3",
+]
+
+[project.urls]
+Documentation = "https://public-api.askpilot.com/docs"
+Repository = "https://github.com/Askpilot-AI-Number/public-api-python-client-sdk"
+Changelog = "https://github.com/Askpilot-AI-Number/public-api-python-client-sdk/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+# The lower bounds are the versions that Python 3.9 can install. `uv lock`
+# forks the resolution on the `requires-python` boundary on its own: 3.9 gets
+# pytest 8.4.x and pytest-asyncio 1.2.x, and 3.10 and later get the latest.
+dev = [
+    "pytest>=8.4",
+    "pytest-asyncio>=1.0",
+    "pytest-cov>=7.0",
+    "ruff>=0.16",
+    "ty>=0.0.79",
+]
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/askpilot"]
+
+# The GitHub Actions, the maintainer notes, and the logo are not for a user of
+# the package. The README shows the logo from a URL.
+[tool.hatch.build.targets.sdist]
+exclude = [".github", "CLAUDE.md", "assets"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "A", "C4", "T20"]
+ignore = ["E501"]  # The formatter handles the line length.
+
+# pydantic evaluates the annotation of a field at run time. So a model field
+# keeps `Optional[X]` from typing, and ruff must not rewrite it to `X | None`
+# behind a `from __future__ import annotations` line.
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "--strict-markers --cov=askpilot --cov-report=term-missing"
+filterwarnings = ["error"]
+
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:"]
+
+# The lowest Python version of the package. The check then refuses a name that
+# 3.10 or later added. 3.10 added `X | Y` at run time, `match`, `zip(strict=)`,
+# `ParamSpec`, and `TypeAlias`. 3.11 added `datetime.UTC` and `typing.Self`.
+[tool.ty.environment]
+python-version = "3.9"

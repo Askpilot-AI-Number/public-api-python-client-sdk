@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# Environments
+.venv/
+.env
+.env.*
+
+# Tools
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# macOS
+.DS_Store
+
+# The notes of the maintainer.
+CLAUDE.md

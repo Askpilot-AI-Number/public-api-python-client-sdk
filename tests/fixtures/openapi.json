@@ -1,0 +1,1134 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Askpilot API Reference",
+    "description": "Learn more about the Askpilot public API, including every endpoint with its requests and responses, authentication and errors, and a console to try calls.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/organization": {
+      "get": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Get Organization",
+        "description": "Returns the organization that your API key belongs to.\n\nThere's nothing to pass: the API key determines the organization.",
+        "operationId": "get_organization_v1_organization_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizationOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/workflows": {
+      "get": {
+        "tags": [
+          "Workflows"
+        ],
+        "summary": "List Workflows",
+        "description": "Returns the workflows in your organization, one page at a time.\n\nThe list includes every workflow, active or not, whatever its scope. Use\nlimit and cursor to page through the results, and search to filter by name\nor description.",
+        "operationId": "list_workflows_v1_workflows_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only return items that contain this text. The match ignores case.",
+              "title": "Search"
+            },
+            "description": "Only return items that contain this text. The match ignores case."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "How many items to return per page, from 1 to 100. The default is 25.",
+              "default": 25,
+              "title": "Limit"
+            },
+            "description": "How many items to return per page, from 1 to 100. The default is 25."
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 512
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cursor from a previous response. Pass the next_cursor value to get the next page, or leave it out to start from the beginning.",
+              "title": "Cursor"
+            },
+            "description": "Cursor from a previous response. Pass the next_cursor value to get the next page, or leave it out to start from the beginning."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_WorkflowOut_"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/v1/workflows/{workflow_id}": {
+      "get": {
+        "tags": [
+          "Workflows"
+        ],
+        "summary": "Get Workflow",
+        "description": "Returns a single workflow by its id.\n\nThe object is the same as in the list. If the workflow doesn't exist in\nyour organization, you get a 404.",
+        "operationId": "get_workflow_v1_workflows__workflow_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Unique identifier of the workflow.",
+              "title": "Workflow Id"
+            },
+            "description": "Unique identifier of the workflow."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/v1/workflows/{workflow_id}/start": {
+      "post": {
+        "tags": [
+          "Workflows"
+        ],
+        "summary": "Start Workflow",
+        "description": "Starts a workflow with the text you provide.\n\nAskpilot accepts the request and responds with 202 right away. The workflow\nitself runs a few seconds later, in the session you named or in a new one.\nTo start, the workflow must be active, have an active trigger with the\nsource api, and have at least one user with access.",
+        "operationId": "start_workflow_v1_workflows__workflow_id__start_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "workflow_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Unique identifier of the workflow.",
+              "title": "Workflow Id"
+            },
+            "description": "Unique identifier of the workflow."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkflowStartIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowStartOut"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AutoRunOut": {
+        "properties": {
+          "enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enabled",
+            "description": "Whether the workflow runs again automatically on a schedule. It's null if auto-run was never configured."
+          },
+          "frequency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frequency",
+            "description": "How often the workflow runs automatically: hourly, daily, weekly, or monthly. It's null if there's no schedule."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "enabled",
+          "frequency"
+        ],
+        "title": "AutoRunOut",
+        "description": "The auto-run settings of a workflow.\n\nAuto-run lets a workflow run again on a schedule."
+      },
+      "ErrorBody": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "A stable code that identifies the error, such as not_found or rate_limited. Match on this value in your code; it won't change."
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "A human-readable explanation of the error. This text may change, so don't match on it."
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "Unique identifier of this request. Include it when you contact support."
+          },
+          "details": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/FieldError"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details",
+            "description": "The fields that failed validation. It's only included on 422 responses."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "request_id"
+        ],
+        "title": "ErrorBody",
+        "description": "Details about the error."
+      },
+      "ErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorBody",
+            "description": "What went wrong: the error code, a message, and the id of the request."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse",
+        "description": "The body of every error response, whatever the status code."
+      },
+      "FieldError": {
+        "properties": {
+          "field": {
+            "type": "string",
+            "title": "Field",
+            "description": "Name of the field that failed validation, such as context. For a nested field, the parts are joined with a dot."
+          },
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "A short code that says what's wrong with the field, such as string_too_short or not_found. Match on this value in your code."
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "A human-readable explanation of what's wrong with the field."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "field",
+          "code",
+          "message"
+        ],
+        "title": "FieldError",
+        "description": "Details about one field of your request that failed validation.\n\nOnly 422 responses include these."
+      },
+      "FileOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier of the file."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the file, such as PROCESS.md."
+          },
+          "path": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Path",
+            "description": "The folders that contain the file, from the top level down. An empty list means the file is at the root of the workflow."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "path"
+        ],
+        "title": "FileOut",
+        "description": "A file that belongs to the workflow.\n\nThe response includes the name and location of the file, but not its\ncontent."
+      },
+      "OrganizationOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier of the organization."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the organization."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "OrganizationOut",
+        "description": "The organization that your API key belongs to."
+      },
+      "PageInfo": {
+        "properties": {
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor",
+            "description": "Cursor for the next page of results. It's null when you've reached the last page."
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "description": "Whether there are more results after this page."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "next_cursor",
+          "has_more"
+        ],
+        "title": "PageInfo",
+        "description": "Tells you whether there are more results and how to fetch the next page."
+      },
+      "Page_WorkflowOut_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/WorkflowOut"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "The items on this page. It's an empty list when there are no results."
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PageInfo",
+            "description": "Whether there are more results, and the cursor for the next page."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "Page[WorkflowOut]",
+        "description": "A page of results. The data list holds the items of this page, and pagination tells you how to get the next one."
+      },
+      "SubagentSourceOut": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "Unique identifier of the subagent source. It's null when the type is platform_internal."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the subagent source, such as API, Street CRM, or web-research."
+          },
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "description": "What kind of subagent source this is, such as api, street, or platform_internal. A platform_internal source is a subagent built into Askpilot. New types may be added over time, so don't reject values you don't recognize."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "type"
+        ],
+        "title": "SubagentSourceOut",
+        "description": "A subagent source that's attached to a trigger.\n\nCheck the type field to see what kind it is."
+      },
+      "TriggerEventOut": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "Machine-readable name of the event. Use this value in your code."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable name of the event."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "slug",
+          "name"
+        ],
+        "title": "TriggerEventOut",
+        "description": "An event that fires the trigger."
+      },
+      "TriggerOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier of the trigger."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the trigger. It can be empty."
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the trigger is active. A paused trigger is inactive, but it still appears in this list."
+          },
+          "trigger_source": {
+            "$ref": "#/components/schemas/TriggerSourceOut",
+            "description": "Where the trigger's events come from, such as the API or Street."
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/TriggerEventOut"
+            },
+            "type": "array",
+            "title": "Events",
+            "description": "The events that fire this trigger and start the workflow."
+          },
+          "filters": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filters",
+            "description": "Extra conditions for the trigger, exactly as configured in Askpilot. It's null when the trigger has none."
+          },
+          "input_message": {
+            "type": "string",
+            "title": "Input Message",
+            "description": "Text that Askpilot adds to the session message when this trigger starts the workflow. It can be empty."
+          },
+          "subagent_sources": {
+            "items": {
+              "$ref": "#/components/schemas/SubagentSourceOut"
+            },
+            "type": "array",
+            "title": "Subagent Sources",
+            "description": "The subagent sources attached to this trigger. Sources with a type other than platform_internal come first, sorted by name, followed by the platform_internal sources, also sorted by name."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "is_active",
+          "trigger_source",
+          "events",
+          "filters",
+          "input_message",
+          "subagent_sources"
+        ],
+        "title": "TriggerOut",
+        "description": "A trigger that starts this workflow.\n\nYou can start a workflow through this API when it has an active trigger\nwhose source is api."
+      },
+      "TriggerSourceOut": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "Machine-readable name of the source, such as api. Use this value in your code."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable name of the source, such as API."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "slug",
+          "name"
+        ],
+        "title": "TriggerSourceOut",
+        "description": "Where a trigger's events come from, such as the API or Street."
+      },
+      "UserOut": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "description": "Email address of the user."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Full name of the user, made from their first and last name. It's an empty string when neither is set."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "email",
+          "name"
+        ],
+        "title": "UserOut",
+        "description": "A person who has access to the workflow."
+      },
+      "WorkflowOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier of the workflow."
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the workflow."
+          },
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "description": "Description of what the workflow does, as written in Askpilot."
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "description": "Who can use the workflow: company_wide means everyone in your organization, and only_me means a single user. New values may be added over time, so don't reject values you don't recognize."
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the workflow is active. An inactive workflow can't be started through the API."
+          },
+          "auto_run": {
+            "$ref": "#/components/schemas/AutoRunOut",
+            "description": "The auto-run settings of the workflow."
+          },
+          "users": {
+            "items": {
+              "$ref": "#/components/schemas/UserOut"
+            },
+            "type": "array",
+            "title": "Users",
+            "description": "The people who have access to this workflow, sorted by email address."
+          },
+          "triggers": {
+            "items": {
+              "$ref": "#/components/schemas/TriggerOut"
+            },
+            "type": "array",
+            "title": "Triggers",
+            "description": "The triggers that can start this workflow, oldest first. Paused triggers are included."
+          },
+          "files": {
+            "items": {
+              "$ref": "#/components/schemas/FileOut"
+            },
+            "type": "array",
+            "title": "Files",
+            "description": "The files that belong to this workflow, sorted by folder and then by name. The content of a file isn't included."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "When the workflow was created."
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "When the workflow was last changed."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "scope",
+          "is_active",
+          "auto_run",
+          "users",
+          "triggers",
+          "files",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "WorkflowOut",
+        "description": "A workflow in your organization.\n\nThe list and the single-workflow endpoints both return this object."
+      },
+      "WorkflowStartIn": {
+        "properties": {
+          "context": {
+            "type": "string",
+            "maxLength": 10000,
+            "minLength": 1,
+            "title": "Context",
+            "description": "The text you want the workflow to work with. Askpilot trims whitespace at the start and end, and what's left must be 1 to 10,000 characters long."
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Id",
+            "description": "The session to run the workflow in. It must be an open session in your organization. Leave it out and Askpilot creates a new session."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "context"
+        ],
+        "title": "WorkflowStartIn",
+        "description": "What you send to start a workflow."
+      },
+      "WorkflowStartOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier of this start request. Include it when you contact support."
+          },
+          "workflow_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Workflow Id",
+            "description": "Unique identifier of the workflow that's being started."
+          },
+          "session_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Session Id",
+            "description": "Unique identifier of the session the workflow runs in. It's the session you passed in, or a new one that Askpilot created for you."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "workflow_id",
+          "session_id"
+        ],
+        "title": "WorkflowStartOut",
+        "description": "Confirmation that Askpilot accepted your request to start the workflow.\n\nThe workflow doesn't run right away: Askpilot starts it a few seconds\nlater. Keep session_id if you want to start the workflow again in the same\nsession."
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "description": "Your API key, sent as a bearer token in the Authorization header. You create the key in Askpilot.",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

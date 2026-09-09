@@ -1,0 +1,57 @@
+# The CI of the SDK: the 3 gates and the tests on each Python version.
+# publish.yml calls this workflow with workflow_call before a release.
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    # A new push to the same ref cancels the run in progress. The group holds
+    # the matrix value, so the 6 legs of 1 run do not cancel each other. The
+    # key sits on the job, so it applies also when publish.yml calls this
+    # workflow.
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.python-version }}
+      cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install
+        run: uv sync --locked
+
+      - name: Lint
+        run: uv run ruff check .
+
+      - name: Format
+        run: uv run ruff format --check .
+
+      - name: Types
+        run: uv run ty check src/
+
+      - name: Test
+        run: uv run pytest --cov=askpilot --cov-fail-under=90
+
+      - name: Build and check the package
+        if: matrix.python-version == '3.13'
+        run: |
+          uv build
+          uvx twine check dist/*
