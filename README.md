@@ -79,7 +79,6 @@ The key never appears in a log line, in an exception message, or in `repr(client
 | Environment variable | What it does |
 |---|---|
 | `ASKPILOT_API_KEY` | Your API key, used when you don't pass `api_key`. |
-| `ASKPILOT_BASE_URL` | The URL of the API, used when you don't pass `base_url`. |
 
 ## Errors
 
