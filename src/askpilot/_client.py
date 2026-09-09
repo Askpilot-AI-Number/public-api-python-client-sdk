@@ -134,9 +134,9 @@ class Askpilot:
     Args:
         api_key: Your API key. Leave it out to read the ASKPILOT_API_KEY
             environment variable.
-        base_url: The URL of the API. Leave it out to read ASKPILOT_BASE_URL,
-            or to use https://public-api.askpilot.com. Only https is allowed,
-            except for localhost and 127.0.0.1.
+        base_url: The URL of the API. Leave it out to use
+            https://public-api.askpilot.com. Only https is allowed, except
+            for localhost and 127.0.0.1.
         timeout: The timeout of each request, in seconds, or an httpx.Timeout
             for a value per phase. The default is 30 seconds.
         max_retries: How many times a request is sent again after a
@@ -244,9 +244,9 @@ class AsyncAskpilot:
     Args:
         api_key: Your API key. Leave it out to read the ASKPILOT_API_KEY
             environment variable.
-        base_url: The URL of the API. Leave it out to read ASKPILOT_BASE_URL,
-            or to use https://public-api.askpilot.com. Only https is allowed,
-            except for localhost and 127.0.0.1.
+        base_url: The URL of the API. Leave it out to use
+            https://public-api.askpilot.com. Only https is allowed, except
+            for localhost and 127.0.0.1.
         timeout: The timeout of each request, in seconds, or an httpx.Timeout
             for a value per phase. The default is 30 seconds.
         max_retries: How many times a request is sent again after a
