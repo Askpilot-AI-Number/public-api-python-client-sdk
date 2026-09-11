@@ -140,7 +140,7 @@ have an active trigger with the source api, and have at least one user with acce
 |---|---|---|
 | `workflow_id` | `str` or `UUID` | Unique identifier of the workflow. |
 | `context` | `str` | The text you want the workflow to work with. Askpilot trims whitespace at the start and end, and what's left must be 1 to 10,000 characters long. |
-| `session_id` | `str`, `UUID`, or `None` | The session to run the workflow in. It must be an open session in your organization. Leave it out and Askpilot creates a new session. |
+| `session_id` | `str`, `UUID`, or `None` | The session to run the workflow in. It must be an open session in your organization. Leave it out and Askpilot creates a new session. Each start applies the workflow's current settings to the session: the subagent sources on the API trigger and the workflow's auto-run settings replace what the session had. |
 
 The SDK sends `context` as you pass it, and it adds `session_id` to the request only when you pass
 one. Askpilot trims and measures the text, and it answers with an `InvalidRequestError` when the
@@ -161,6 +161,11 @@ client.workflows.start(start.workflow_id, context="John called back.", session_i
 ran. The session starts a few seconds later. Keep `session_id`: it names the session in the
 Askpilot web app, and a later start can send a second message to the same session.
 
+**Each start replaces the session's settings.** When you pass a `session_id`, Askpilot applies the
+workflow's current settings to that session: the subagent sources on the API trigger and the
+workflow's auto-run settings replace what the session had. Changes someone made to that session in
+the Askpilot web app don't survive a start.
+
 **A start isn't idempotent.** A request you send twice starts the workflow twice, and the SDK never
 retries a start on its own after a timeout or a gateway error, only after a 429. To make a
 workflow startable, a person adds a trigger with the source API to it in the Askpilot web app.
@@ -170,7 +175,8 @@ workflow startable, a person adds a trigger with the source API to it in the Ask
 Confirmation that Askpilot accepted your request to start the workflow.
 
 The workflow doesn't run right away: Askpilot starts it a few seconds later. Keep session_id if
-you want to start the workflow again in the same session.
+you want to start the workflow again in the same session. Each start applies the workflow's
+current settings to that session.
 
 | Field | Type | Description |
 |---|---|---|

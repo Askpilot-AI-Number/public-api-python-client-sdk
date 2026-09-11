@@ -175,7 +175,9 @@ class WorkflowsResource:
                 characters long.
             session_id: The session to run the workflow in. It must be an open
                 session in your organization. Leave it out and Askpilot creates a new
-                session.
+                session. Each start applies the workflow's current settings to the
+                session: the subagent sources on the API trigger and the workflow's
+                auto-run settings replace what the session had.
 
         Returns:
             The confirmation, with the id of this start request, the workflow id,
@@ -325,7 +327,9 @@ class AsyncWorkflowsResource:
                 characters long.
             session_id: The session to run the workflow in. It must be an open
                 session in your organization. Leave it out and Askpilot creates a new
-                session.
+                session. Each start applies the workflow's current settings to the
+                session: the subagent sources on the API trigger and the workflow's
+                auto-run settings replace what the session had.
 
         Returns:
             The confirmation, with the id of this start request, the workflow id,

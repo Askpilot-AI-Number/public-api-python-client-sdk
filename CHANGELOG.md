@@ -7,6 +7,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- The documentation of `workflows.start()` and `WorkflowStart` now says what a start does to an
+  existing session: Askpilot applies the workflow's current settings to it, and the subagent
+  sources on the API trigger and the workflow's auto-run settings replace what the session had.
+
 ## [0.1.0] - 2026-09-09
 
 ### Added

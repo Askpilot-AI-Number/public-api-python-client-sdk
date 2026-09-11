@@ -181,7 +181,7 @@ class WorkflowStart(BaseModel):
 
     The workflow doesn't run right away: Askpilot starts it a few seconds
     later. Keep session_id if you want to start the workflow again in the same
-    session.
+    session. Each start applies the workflow's current settings to that session.
     """
 
     id: UUID = Field(

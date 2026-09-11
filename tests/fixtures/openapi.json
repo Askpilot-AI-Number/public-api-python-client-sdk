@@ -1080,7 +1080,7 @@
               }
             ],
             "title": "Session Id",
-            "description": "The session to run the workflow in. It must be an open session in your organization. Leave it out and Askpilot creates a new session."
+            "description": "The session to run the workflow in. It must be an open session in your organization. Leave it out and Askpilot creates a new session. Each start applies the workflow's current settings to the session: the subagent sources on the API trigger and the workflow's auto-run settings replace what the session had."
           }
         },
         "additionalProperties": false,
@@ -1120,7 +1120,7 @@
           "session_id"
         ],
         "title": "WorkflowStartOut",
-        "description": "Confirmation that Askpilot accepted your request to start the workflow.\n\nThe workflow doesn't run right away: Askpilot starts it a few seconds\nlater. Keep session_id if you want to start the workflow again in the same\nsession."
+        "description": "Confirmation that Askpilot accepted your request to start the workflow.\n\nThe workflow doesn't run right away: Askpilot starts it a few seconds\nlater. Keep session_id if you want to start the workflow again in the same\nsession. Each start applies the workflow's current settings to that session."
       }
     },
     "securitySchemes": {
